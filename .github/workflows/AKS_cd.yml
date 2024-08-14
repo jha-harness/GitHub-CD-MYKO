@@ -43,7 +43,7 @@ jobs:
         with:
           login-server: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.REPO_PAT }}
           
       - name: Build and push to GHCR
         uses: docker/build-push-action@v2
