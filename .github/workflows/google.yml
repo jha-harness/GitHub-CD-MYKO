@@ -80,12 +80,13 @@ jobs:
         context: ./azure-vote
         # file: ./azure-vote/Dockerfile
         push: true
-        tags: us-east4-docker.pkg.dev/fluted-elf-432519-t7/voting-app-demo:${{ github.sha }}
+        tags: us-east4-docker.pkg.dev/fluted-elf-432519-t7/voting-app-demo/vote-app:${{ github.sha }}
 
-    # Push the Docker image to Google Artifact Registry
-    - name: Publish
-      run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+    # # Push the Docker image to Google Artifact Registry
+    # - name: Publish
+    #   run: |-
+    #     docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+    
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
@@ -95,7 +96,8 @@ jobs:
     - name: Deploy
       run: |-
         # replacing the image name in the k8s template
-        ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
+        #  ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
+        ./kustomize edit set image us-east4-docker.pkg.dev/fluted-elf-432519-t7/voting-app-demo/vote-app:${{ github.sha }}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
