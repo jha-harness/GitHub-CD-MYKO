@@ -75,13 +75,12 @@ jobs:
     #       --build-arg GITHUB_REF="$GITHUB_REF" \
 
     - name: Build and push to GAR
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v6
       with:
         context: ./azure-vote
-        file: ./azure-vote/Dockerfile
+        # file: ./azure-vote/Dockerfile
         push: true
-        tags: "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
-        
+        tags: us-east4-docker.pkg.dev/fluted-elf-432519-t7/voting-app-demo:${{ github.sha }}
 
     # Push the Docker image to Google Artifact Registry
     - name: Publish
