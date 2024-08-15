@@ -80,9 +80,9 @@ jobs:
         context: ./azure-vote
         file: ./azure-vote/Dockerfile
         push: true
-        tags: "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
+        tags: "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        
 
-          .
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
