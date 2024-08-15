@@ -67,12 +67,21 @@ jobs:
         location: ${{ env.GKE_ZONE }}
 
     # Build the Docker image
-    - name: Build
-      run: |-
-        docker build azure-vote/ \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
+    # - name: Build
+    #   run: |-
+    #     docker build azure-vote/ \
+    #       --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+    #       --build-arg GITHUB_SHA="$GITHUB_SHA" \
+    #       --build-arg GITHUB_REF="$GITHUB_REF" \
+
+    - name: Build and push to GAR
+      uses: docker/build-push-action@v2
+      with:
+        context: ./azure-vote
+        file: ./azure-vote/Dockerfile
+        push: true
+        tags: "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
+
           .
     # Push the Docker image to Google Artifact Registry
     - name: Publish
