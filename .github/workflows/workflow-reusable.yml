@@ -2,13 +2,7 @@ name: Reusable workflow example
 
 on:
   workflow_call:
-    inputs:
-      config-path:
-        required: false
-        type: string
-    secrets:
-      token:
-        required: true
+
 
 jobs:
   triage:
@@ -16,7 +10,7 @@ jobs:
     steps:
     - name: message
       run: echo resuable workflow demo
-    - uses: actions/labeler@v4
-      with:
-        repo-token: ${{ secrets.token }}
-        configuration-path: ${{ inputs.config-path }}
+    - name: Go-Linty
+      uses: ArangoGutierrez/GoLinty-Action@go-1.13rc1-alpine
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
