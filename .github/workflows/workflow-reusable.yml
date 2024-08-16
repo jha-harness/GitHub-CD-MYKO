@@ -5,12 +5,21 @@ on:
 
 
 jobs:
-  triage:
+  linter:
     runs-on: ubuntu-latest
     steps:
     - name: message
-      run: echo resuable workflow demo
-    - name: Go-Linty
-      uses: ArangoGutierrez/GoLinty-Action@go-1.13rc1-alpine
+      run: echo Linter Workflow Template
+      
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        # super-linter needs the full git history to get the
+        # list of files that changed across commits
+        fetch-depth: 0
+
+    - name: Super-linter
+      uses: super-linter/super-linter@v7.0.0 # x-release-please-version
       env:
+        # To report GitHub Actions status checks
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
