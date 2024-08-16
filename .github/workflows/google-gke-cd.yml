@@ -130,3 +130,13 @@ jobs:
         kubectl apply -f manifests/helloweb-service-load-balancer.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
+
+    - name: Rollback on Failure
+      uses: gke/k8s-deploy@v1.3
+      if: ${{ failure() }}
+      with:
+        namespace: default
+        manifests: |
+          ./kubernetes/service.yaml
+          ./kubernetes/load-balancer.yaml
+
